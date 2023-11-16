@@ -1,0 +1,104 @@
+{
+    "5at": {
+        "students": {
+            "peter": {
+                "name": "peter",
+                "kurse": [
+                    "k0",
+                    "k0",
+                    "k0",
+                    "k0",
+                    "k0"
+                ],
+                "anwesend": true
+            },
+            "paul": {
+                "name": "paul",
+                "kurse": [
+                    "k0",
+                    "k0",
+                    "k0",
+                    "k0",
+                    "k0"
+                ],
+                "anwesend": true
+            }
+        }
+    },
+    "4ar": {
+        "students": {
+            "simon": {
+                "name": "simon",
+                "kurse": [
+                    "k1",
+                    "k4",
+                    "k7",
+                    "k1",
+                    "k2",
+                    "k6"
+                ],
+                "anwesend": true
+            },
+            "peter": {
+                "name": "peter",
+                "kurse": [
+                    "k0",
+                    "k0",
+                    "k0",
+                    "k0",
+                    "k0"
+                ],
+                "anwesend": true
+            },
+            "paul": {
+                "name": "paul",
+                "kurse": [
+                    "k0",
+                    "k0",
+                    "k0",
+                    "k0",
+                    "k0"
+                ],
+                "anwesend": true
+            }
+        }
+    },
+    "5as": {
+        "students": {
+            "klaus": {
+                "name": "klaus",
+                "kurse": [
+                    "k3",
+                    "k4",
+                    "k7",
+                    "k1",
+                    "k2",
+                    "k9"
+                ],
+                "anwesend": true
+            },
+            "peter": {
+                "name": "peter",
+                "kurse": [
+                    "k0",
+                    "k0",
+                    "k0",
+                    "k0",
+                    "k0"
+                ],
+                "anwesend": true
+            },
+            "paul": {
+                "name": "paul",
+                "kurse": [
+                    "k0",
+                    "k0",
+                    "k0",
+                    "k0",
+                    "k0"
+                ],
+                "anwesend": true
+            }
+        }
+    }
+}

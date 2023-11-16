@@ -1,78 +1,141 @@
-<div class="body">
-        <form action="" method="post">
-            <?php 
-                if(isset($_POST["submit"])){
-                    $csv = fopen("example.csv", "a");
-                    str_replace($_SESSION['class'], '"', '');
-                    $data = array($_SESSION['class'], $_SESSION['student']);
-                    foreach ($_POST as $key => $value) {        
-                        str_replace($value, '"', '');
-                        
-                        if($value != "Save"){
-                            array_push($data, $value);
-                        }
-                    }
-                    $_POST = array();
-                    var_dump($data);
-                    $file = fopen("example.csv", "r");
-                    $rows = array();
-                    while (($row = fgetcsv($file)) !== false) {
-                        if($row[0]!= $_SESSION['class'] && $row[1] != $_SESSION['student'])
-                            $rows[] = $row;
-                    }
-                    array_push($rows, $data);
-                    fclose($file);
-                    fputcsv($csv, $rows);
-                    fclose($csv);
-                    echo "Saved successfully";
-                }
+
+<div>
+    <select name="k1" id="k1">
+
+    </select>
+    <select name="k2" id="k2">
+
+    </select>
+    <select name="k3" id="k3">
+
+    </select>
+    <select name="k4" id="k4">
+
+    </select>
+    <select name="k5" id="k5">
+
+    </select>
+    <select name="k6" id="k6">
+
+    </select>
+    
+    <button type="button" id="submitBtn">submit</button>
+    <script>
+        
+        function submit(){
+            var k1 = document.getElementById("k1").value;
+            var k2 = document.getElementById("k2").value;
+            var k3 = document.getElementById("k3").value;
+            var k4 = document.getElementById("k4").value;
+            var k5 = document.getElementById("k5").value;
+            var k6 = document.getElementById("k6").value;
+            var data = {kurse:[k1,k2,k3,k4,k5,k6], class: sessionStorage.getItem("class"), student:sessionStorage.getItem("student")};
+            console.log("class "+sessionStorage.getItem("class"));
+            console.log("student "+sessionStorage.getItem("student"));
+            console.log(JSON.stringify(data));
+            fetch('http://localhost/info-orientierungstag/save-data.php', { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data), 
+            })
+            .then(response => response.text())
+            .then(data => console.log(data));
+            }
+
+            document.getElementById('submitBtn').addEventListener('click', function () {
+                submit();
+            });
+
+    </script>
+
+</div>
 
 
-                $jsonData = file_get_contents('./slots.json');
-                $data = json_decode($jsonData, true);
-                
-                if ($data === null) {
-                    die("Failed to decode JSON data");
-                }
-                $n = 0;
-                $exists = false;
+<script>
+fetch('slots.json')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(slotsData => {
+        const selectElements = document.querySelectorAll('select'); 
 
-                $csv = fopen("example.csv", "r");
-                while (($row = fgetcsv($csv)) !== false) {
-                   
-                        if ($_SESSION['class'] == $row[0] && $_SESSION['student'] == $row[1]) {
-                            if(!empty($row[3])){
-                                if(!isset($_POST["submit"])){
-                                    echo'user existiert schon!';
-                                    
-                                } 
-                                $exists = true;
-                            }else{
-                                foreach ($data['slots'] as $subarray) {
-                                    echo '<select name="select'.$n.'">';
-                                    $selectedValue = isset($_POST['select'.$n]) ? $_POST['select'.$n] : '';
-                                    foreach ($subarray as $value) {
-                                        echo '<option value="' . $value . '"';
-                                        if ($selectedValue === $value) {
-                                            echo ' selected';
-                                        }
-                                        echo '>' . $value . '</option>';
-                                    }
-                                    echo '</select>';
-                                    echo '<br>';
-                                    $n++;   
-                                }
-                        }
-                        } 
+        selectElements.forEach((select, index) => {
+            slotsData.slots[index].forEach(option => {
+                const optionElement = document.createElement('option');
+                optionElement.textContent = option;
+                select.appendChild(optionElement);
+            });
+        });
+    })
+    .catch(error => {
+        console.error('Error loading or parsing JSON file:', error);
+    });
+</script>       
 
-                       
-                    
-                }
-                if($exists == false){
-                    echo '<input type="submit" name="submit" value="Save">';
-                }
-                
-            ?>
-           
-        </form>
-    </div>
+
+<?php
+/*
+
+
+
+
+// Load JSON data from example.json
+$json = file_get_contents("example.json");
+$data = json_decode($json, true);
+$slots = file_get_contents("slots.json");
+$slotData = json_decode($slots, true);
+
+if ($data === null) {
+    die("Failed to decode JSON data");
+}
+
+$class = $_SESSION['class'];
+$student = $_SESSION['student']; 
+var_dump($data[$class]['students'][$student]);
+if (isset($data[$class]['students'][$student]["name"])) {
+    //$data[$class]['students'][$student];
+    echo '<div class="body">';
+    echo '<form action="" method="post">';
+
+
+    for($i = 0; $i < count($slotData['slots']); $i++) {
+        echo '<select name="select'.$i.'">';
+        $selectedValue = isset($data[$class]['students'][$student][$i]) ? $data[$class]['students'][$student] : '';
+        foreach ($slotData["slots"][$i] as $value) {
+            echo '<option value="' . $value . '"';
+            if ($selectedValue === $value) {
+                echo ' selected';
+            }
+            echo '>' . $value . '</option>';
+        }
+        echo '</select>';
+        echo '<br>';
+    }
+    /*
+    foreach ($slotData['kurse'] as $key => $value) {
+        echo '<select name="' . $key . '">';
+        $selectedValue = isset($_POST[$key]) ? $_POST[$key] : $value;
+        foreach ($slotData["slots"] as $option) {
+            echo '<option value="' . $option . '"';
+            if ($selectedValue === $option) {
+                echo ' selected';
+            }
+            echo '>' . $option . '</option>';
+        }
+        echo '</select>';
+        echo '<br>';
+    }*
+
+    echo '<input type="submit" name="submit" value="Save">';
+    echo '</form>';
+    echo '</div>';
+} else {
+    echo "Student not found!";
+}
+*/
+?>

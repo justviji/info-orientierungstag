@@ -17,6 +17,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <title>Orientierungstag</title>
     <style>
         body {
@@ -60,6 +61,8 @@
             padding-right: 30px;
         }
     </style>
+    
+
 </head>
 <body>
     <header>
@@ -84,6 +87,34 @@
                         <li class="nav-item">
                             <button type="submit" class="nav-link btn btn-link" name="action" value="show">Anzeigen</button>
                         </li>
+                        <li class="nav-item">
+                            <button type="button" class="nav-link btn btn-link" name="action" value="absent" id="absent"><script>
+                                 
+                            function absent(){
+                                var data = {absent:sessionStorage.getItem("absent"), class: sessionStorage.getItem("class"), student:sessionStorage.getItem("student")};
+            
+                                 console.log("class "+sessionStorage.getItem("class"));
+                                 console.log("student "+sessionStorage.getItem("student"));
+                                 //console.log(JSON.stringify(data));
+                                 fetch('http://localhost/info-orientierungstag/set-absent.php', { 
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify(data), 
+                                })
+                                .then(response => response.text())
+                                .then(data => console.log(data));
+                                
+                            }
+            
+                            document.getElementById('absent').addEventListener('click', function () {
+                                absent();
+                            });
+                            </script>
+                            abwesend    
+                        </button>
+                        </li>
                     </ul>
                 </div>
                 <div>
@@ -104,6 +135,15 @@
                         }
                         ?>
                     </a>
+                    <a href="">
+                        <?php 
+                        if(isset($_SESSION["anwesend"])) {
+                            echo $_SESSION["anwesend"] == true ? " anwesend": " abwesend";
+                        }else{
+                            echo "no student to see if absent";
+                        }
+                        ?>
+                    </a>
                 </div>
             </form>
         </nav>
@@ -118,11 +158,21 @@
             include "./edit.php";
         }else if(isset($_GET["action"]) && $_GET["action"]=="delete" && file_exists("./delete.php")){
             include "./delete.php";
-        }else if(isset($v["action"]) && $_GET["action"]=="show" && file_exists("./show.php")){
+        }else if(isset($_GET["action"]) && $_GET["action"]=="show" && file_exists("./show.php")){
             include "./show.php";
+        }else if(isset($_GET["action"]) && $_GET["action"]=="absent"){
+            var_dump($_SESSION);
+            echo '<script>
+            sessionStorage.setItem("absent", !sessionStorage.getItem("absent"));
+            //location.reload();
+        </script>';
+        //$_GET['action'] = "null";
+        ;
+
         }else{
             include "./choose-student.php";
         }
     ?>
+    
 </body>
 </html>

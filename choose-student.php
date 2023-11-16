@@ -1,49 +1,63 @@
-
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
 <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container">
-            <form method="post">
-                <select name="classes" id="classes">
-                    <?php
-                        $file = fopen('example.csv', 'r');
-                        $classes = array();
-                        while (($row = fgetcsv($file)) !== false) {
-                            if (!in_array($row[0], $classes)) {
-                                array_push($classes, $row[0]);
-                                if (isset($_POST['classes']) && $_POST['classes'] == $row[0]) {
-                                    echo '<option value="' . $row[0] . '" selected>' . $row[0] . '</option>';
-                                }else{
-                                    echo '<option value="' . $row[0] . '">' . $row[0] . '</option>';
-                                }   
-                            }
-                        }
-                        fclose($file);
-                    ?>
-                </select>
-                <div>
-                    <button type="submit" name="loadStudents">Load Students</button>
-                </div>
-                <select name="classmates">
+    <div class="container">
+        <form method="post">
+            <select name="classes" id="classes">
                 <?php
-                if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['loadStudents'])) {
-                    $class = filter_input(INPUT_POST, 'classes', FILTER_SANITIZE_STRING);
-                    $file = fopen('example.csv', 'r');
-                    while ($row = fgetcsv($file)) {
-                        if ($class == $row[0]) {
-                            if (isset($_POST['classmates']) && $_POST['classmates'] == $row[1]) {
-                                echo '<option value="' . $row[1] . '" selected>' . $row[1] . '</option>';
-                            }else{
-                                echo '<option value="' . $row[1] . '">' . $row[1] . '</option>';
-                            }
+                    $json = file_get_contents('example.json');
+                    $data = json_decode($json, true);
+
+                    if ($data) {
+                        foreach ($data as $class => $classData) {
+                            echo '<option value="' . $class . '">' . $class . '</option>';
                         }
                     }
-                    fclose($file);
-                }
                 ?>
-                </select>
-                <div>
-                    <button type="submit" name="loadSingleStudent">Load student</button>
-                </div>
-            </form>
-        </div>
-    </nav>
+            </select>
+            <select name="classmates" id="classmates">
+               
+            </select>
+        </form>
+    </div>
+</nav>
+<script>
+    $(document).ready(function() {
+        // Handle class change event
+        $('#classes').on('change', function() {
+            var selectedClass = $(this).val();
+            $('#classmates').html('<option>Loading...</option>');
+
+            // Send an AJAX request to get students for the selected class
+            $.ajax({
+                url: 'get_students.php', 
+                method: 'POST',
+                data: { class: selectedClass },
+                success: function(data) {
+                    $('#classmates').html(' <option value="none">select</option>'+data);
+                }
+            });
+        });
+
+        // Handle student change event
+        $('#classmates').on('change', function() {
+            var selectedClass = $('#classes').val();
+            var selectedStudent = $(this).val();
+
+            // Send an AJAX request to set class and student in the session
+            $.ajax({
+                url: 'set_session.php', // Replace with the correct URL
+                method: 'POST',
+                data: { class: selectedClass, student: selectedStudent},        
+                success: function(data) {
+                    // You can handle success, e.g., redirect or display a message
+                    //console.log(data);
+                    sessionStorage.setItem('class', selectedClass);
+                    sessionStorage.setItem('student', selectedStudent);
+                    //sessionStorage.setItem('absent', )
+                    location.reload();
+                }
+            });
+        });
+    });
+</script>
