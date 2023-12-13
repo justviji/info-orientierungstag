@@ -33,7 +33,7 @@
             console.log("class "+sessionStorage.getItem("class"));
             console.log("student "+sessionStorage.getItem("student"));
             console.log(JSON.stringify(data));
-            fetch('http://localhost/info-orientierungstag/save-data.php', { 
+            fetch('http://'+window.location.host+'/info-orientierungstag/save-data.php', { 
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -53,7 +53,8 @@
 </div>
 
 
-<script>
+<script> 
+    
 fetch('slots.json')
     .then(response => {
         if (!response.ok) {
@@ -63,14 +64,19 @@ fetch('slots.json')
     })
     .then(slotsData => {
         const selectElements = document.querySelectorAll('select'); 
-
         selectElements.forEach((select, index) => {
-            slotsData.slots[index].forEach(option => {
-                const optionElement = document.createElement('option');
-                optionElement.textContent = option;
-                select.appendChild(optionElement);
-            });
+            console.log(slotsData.slots);
+            if (Array.isArray(slotsData.slots[index])) {
+                slotsData.slots[index].forEach(option => {
+                    const optionElement = document.createElement('option');
+                    optionElement.textContent = option;
+                    select.appendChild(optionElement);
+                });
+            } else {
+                console.error(`slotsData.slots[${index}] is not an array`);
+            }
         });
+
     })
     .catch(error => {
         console.error('Error loading or parsing JSON file:', error);

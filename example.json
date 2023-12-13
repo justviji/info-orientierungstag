@@ -4,11 +4,12 @@
             "peter": {
                 "name": "peter",
                 "kurse": [
-                    "k0",
-                    "k0",
-                    "k0",
-                    "k0",
-                    "k0"
+                    "russland einnehmen",
+                    "in eimen Tank nach polen",
+                    "mitn golf zum h\u00f6uf b\u00f6xn jau",
+                    "kriminelle ausl\u00e4nder abschieben",
+                    "was machen sachen?",
+                    "lastkraftwagenfahrer tut tut"
                 ],
                 "anwesend": true
             },
@@ -42,11 +43,12 @@
             "peter": {
                 "name": "peter",
                 "kurse": [
-                    "k0",
-                    "k0",
-                    "k0",
-                    "k0",
-                    "k0"
+                    "kuchen backen",
+                    "in eimen Tank nach polen",
+                    "an tamischen prigl speck auschneidn",
+                    "kriminelle ausl\u00e4nder abschieben",
+                    "was machen sachen?",
+                    "lastkraftwagenfahrer tut tut"
                 ],
                 "anwesend": true
             },
@@ -80,11 +82,12 @@
             "peter": {
                 "name": "peter",
                 "kurse": [
-                    "k0",
-                    "k0",
-                    "k0",
-                    "k0",
-                    "k0"
+                    "kuchen backen",
+                    "in eimen Tank nach polen",
+                    "mitn golf zum h\u00f6uf b\u00f6xn jau",
+                    "kriminelle ausl\u00e4nder abschieben",
+                    "was machen sachen?",
+                    "lastkraftwagenfahrer tut tut"
                 ],
                 "anwesend": true
             },
@@ -98,6 +101,21 @@
                     "k0"
                 ],
                 "anwesend": true
+            }
+        }
+    },
+    "": {
+        "students": {
+            "": {
+                "anwesend": true,
+                "kurse": [
+                    "aaa",
+                    "in eimen Tank nach polen",
+                    "mitn golf zum h\u00f6uf b\u00f6xn jau",
+                    "kriminelle ausl\u00e4nder abschieben",
+                    "was machen sachen?",
+                    "lastkraftwagenfahrer tut tut"
+                ]
             }
         }
     }

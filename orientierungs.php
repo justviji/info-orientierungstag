@@ -8,7 +8,7 @@
         $_SESSION["class"] = $_POST["classes"];
         $_SESSION["student"] = $_POST["classmates"];
     }
-    var_dump($_SESSION);
+    //var_dump($_SESSION);
 ?>
 
 <!DOCTYPE html>
@@ -73,16 +73,13 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <button type="submit" class="nav-link btn btn-link" name="action" value="add-new">Aufnehmen</button>
+                            <button type="submit" class="nav-link btn btn-link" name="action" value="add-new">Schüler Stunden Bearbeiten</button>
                         </li>
                         <li class="nav-item">
                             <button type="submit" class="nav-link btn btn-link" name="action" value="choose-student">Schüler auswählen</button>
                         </li>
                         <li class="nav-item">
-                            <button type="submit" class="nav-link btn btn-link" name="action" value="edit">Bearbeiten</button>
-                        </li>
-                        <li class="nav-item">
-                            <button type="submit" class="nav-link btn btn-link" name="action" value="delete">Löschen</button>
+                            <button type="submit" class="nav-link btn btn-link" name="action" value="edit">Angebote Bearbeiten</button>
                         </li>
                         <li class="nav-item">
                             <button type="submit" class="nav-link btn btn-link" name="action" value="show">Anzeigen</button>
@@ -135,15 +132,6 @@
                         }
                         ?>
                     </a>
-                    <a href="">
-                        <?php 
-                        if(isset($_SESSION["anwesend"])) {
-                            echo $_SESSION["anwesend"] == true ? " anwesend": " abwesend";
-                        }else{
-                            echo "no student to see if absent";
-                        }
-                        ?>
-                    </a>
                 </div>
             </form>
         </nav>
@@ -156,8 +144,6 @@
             include "./choose-student.php";
         }else if(isset($_GET["action"]) && $_GET["action"]=="edit" && file_exists("./edit.php")){
             include "./edit.php";
-        }else if(isset($_GET["action"]) && $_GET["action"]=="delete" && file_exists("./delete.php")){
-            include "./delete.php";
         }else if(isset($_GET["action"]) && $_GET["action"]=="show" && file_exists("./show.php")){
             include "./show.php";
         }else if(isset($_GET["action"]) && $_GET["action"]=="absent"){

@@ -4,6 +4,7 @@
     <div class="container">
         <form method="post">
             <select name="classes" id="classes">
+            <option value="none">select</option>
                 <?php
                     $json = file_get_contents('example.json');
                     $data = json_decode($json, true);
